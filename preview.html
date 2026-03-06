@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="layout-desktop" dir="ltr" lang="de" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Jellyfin Aurum — Theme Preview</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    /* === Jellyfin Base Reset (simulated defaults) === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #101010; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #ccc; background: #101010; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; background: none; border: none; color: inherit; font: inherit; }
+    h1, h2, h3, h4 { margin: 0; font-weight: normal; }
+    img { display: block; max-width: 100%; }
+
+    /* === Simulated Jellyfin Structure === */
+    .backdropContainer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 0; overflow: hidden; }
+    .backdropImage { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; }
+    .backgroundContainer { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+    .backgroundContainer.withBackdrop { background: linear-gradient(180deg, rgba(16,16,16,0.5), rgba(16,16,16,0.95)); }
+
+    .skinHeader { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(16,16,16,0.95); }
+    .skinHeader-withBackground { /* inherits */ }
+    .headerTop { display: flex; align-items: center; height: 56px; padding: 0 16px; }
+    .headerLeft { display: flex; align-items: center; gap: 4px; }
+    .headerRight { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+    .headerButton { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+    .headerTabs { border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .emby-tabs { display: flex; overflow-x: auto; }
+    .emby-tab-button { padding: 12px 20px; white-space: nowrap; font-size: 14px; border-bottom: 2px solid transparent; }
+    .emby-tab-button-active { border-bottom-color: #00a4dc; color: #00a4dc; }
+    .emby-button-foreground { pointer-events: none; }
+
+    .pageTitle, .pageTitleWithLogo, .pageTitleWithDefaultLogo { font-size: 1.1rem; font-weight: 600; margin-left: 8px; }
+
+    .headerUserButton, .headerUserButtonRound {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #333 url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23888"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>') center/60% no-repeat;
+    }
+
+    /* Main content area */
+    .mainAnimatedPages { position: relative; z-index: 2; margin-top: 100px; padding-bottom: 80px; }
+
+    /* Sections */
+    .verticalSection { margin-bottom: 24px; }
+    .sectionTitle, .sectionTitle-cards { font-size: 1.3rem; font-weight: 600; padding: 0 16px; margin-bottom: 12px; }
+    .sectionTitleContainer-cards { display: flex; align-items: center; justify-content: space-between; padding: 0 16px; margin-bottom: 8px; }
+    .sectionTitleTextButton { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #888; }
+
+    /* Scroll container */
+    .emby-scroller { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; }
+    .emby-scroller-container { position: relative; }
+    .emby-scrollbuttons { position: absolute; right: 0; top: 0; display: flex; gap: 4px; padding: 0 16px; z-index: 5; }
+    .emby-scrollbuttons-button { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.1); font-size: 18px; }
+    .scrollSlider { display: flex; gap: 8px; padding: 0 16px; white-space: nowrap; }
+
+    /* Cards */
+    .card { display: inline-block; vertical-align: top; white-space: normal; }
+    .cardBox { border-radius: 6px; overflow: hidden; background: #1a1a1a; }
+    .cardBox-bottompadded { padding-bottom: 8px; }
+    .cardScalable { position: relative; overflow: hidden; }
+    .cardPadder-overflowBackdrop { padding-top: 56.25%; background: #222; position: relative; }
+    .cardPadder-overflowPortrait { padding-top: 150%; background: #222; position: relative; }
+    .cardPadder-overflowSquare { padding-top: 100%; background: #222; position: relative; }
+    .cardImageContainer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-size: cover; background-position: center; }
+    .cardImageIcon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; color: #555; }
+    .cardText { padding: 4px 8px; font-size: 0.9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .cardText-secondary { color: #888; font-size: 0.8rem; }
+
+    .overflowBackdropCard { width: 280px; flex-shrink: 0; }
+    .overflowSmallBackdropCard { width: 240px; flex-shrink: 0; }
+    .overflowPortraitCard { width: 160px; flex-shrink: 0; }
+    .overflowSquareCard { width: 160px; flex-shrink: 0; }
+
+    .cardOverlayButton { position: absolute; bottom: 8px; right: 8px; width: 36px; height: 36px; border-radius: 50%; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; opacity: 0; }
+    .cardBox:hover .cardOverlayButton { opacity: 1; }
+    .innerCardFooter { position: absolute; bottom: 0; left: 0; right: 0; padding: 8px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); }
+
+    /* Indicators */
+    .indicator, .countIndicator, .playedIndicator { position: absolute; top: 4px; right: 4px; background: #00a4dc; color: #fff; font-size: 0.7rem; padding: 2px 6px; border-radius: 3px; font-weight: 700; }
+    .itemProgressBar { position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: rgba(255,255,255,0.2); }
+    .itemProgressBar-inner { height: 100%; background: #00a4dc; }
+
+    /* Now Playing Bar */
+    .nowPlayingBar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 200; background: rgba(20,20,20,0.95); border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; padding: 8px 16px; height: 64px; gap: 12px; }
+    .nowPlayingBarText { font-size: 0.9rem; }
+    .nowPlayingBarSecondaryText { font-size: 0.8rem; color: #888; }
+    .nowPlayingBarControls { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+
+    /* Side Drawer */
+    .mainDrawer { position: fixed; top: 0; bottom: 0; left: -320px; width: 320px; z-index: 300; background: #1a1a1a; overflow-y: auto; }
+    .mainDrawer.open { left: 0; }
+    .mainDrawer-scrollContainer { padding: 8px 0; }
+    .sidebarHeader { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; padding: 16px 16px 4px; color: #666; font-weight: 700; }
+    .navMenuOption { display: flex; align-items: center; gap: 12px; padding: 10px 16px; font-size: 0.95rem; color: #aaa; }
+    .navMenuOption:hover { background: rgba(255,255,255,0.05); }
+    .navMenuOptionIcon { font-size: 20px; width: 24px; text-align: center; }
+
+    /* Drawer overlay */
+    .drawer-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 250; display: none; }
+    .drawer-overlay.active { display: block; }
+
+    /* Card hover state container */
+    .cardOverlayContainer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: transparent; display: flex; align-items: flex-end; justify-content: flex-end; padding: 8px; }
+
+    /* Responsive card sizes */
+    @media (max-width: 767px) {
+      .overflowBackdropCard { width: 220px; }
+      .overflowPortraitCard { width: 120px; }
+      .overflowSquareCard { width: 120px; }
+      .mainAnimatedPages { margin-top: 90px; }
+    }
+
+    /* Preview controls */
+    .preview-bar { position: fixed; top: 0; left: 0; right: 0; z-index: 999; background: #000; color: #C9A84C; display: flex; align-items: center; justify-content: center; gap: 16px; padding: 6px 12px; font-family: 'Jost', sans-serif; font-size: 0.8rem; border-bottom: 1px solid rgba(201,168,76,0.3); }
+    .preview-bar button { background: rgba(201,168,76,0.15); color: #C9A84C; border: 1px solid rgba(201,168,76,0.3); padding: 4px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; font-family: 'Jost', sans-serif; }
+    .preview-bar button:hover { background: rgba(201,168,76,0.25); }
+    .preview-bar button.active { background: #C9A84C; color: #000; }
+    .preview-badge { font-family: 'Cinzel', serif; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; }
+  </style>
+  <link rel="stylesheet" href="jellyfin-gold-theme.css">
+</head>
+<body dir="ltr" class="withSectionTabs libraryDocument">
+
+  <!-- Preview Controls -->
+  <div class="preview-bar">
+    <span class="preview-badge">Aurum Theme Preview</span>
+    <button onclick="toggleDrawer()">Toggle Sidebar</button>
+    <button onclick="setView('desktop')" class="active" id="btn-desktop">Desktop</button>
+    <button onclick="setView('mobile')" id="btn-mobile">Mobile</button>
+    <button onclick="setView('tv')" id="btn-tv">4K TV</button>
+  </div>
+
+  <!-- Backdrop -->
+  <div class="backdropContainer">
+    <div class="backdropImage backdropImageFadeIn" style="background-image: linear-gradient(135deg, #1a1510 0%, #0d0b08 30%, #151210 60%, #0a0908 100%);"></div>
+  </div>
+  <div class="backgroundContainer withBackdrop"></div>
+
+  <!-- Side Drawer -->
+  <div class="drawer-overlay" id="drawerOverlay" onclick="toggleDrawer()"></div>
+  <div class="mainDrawer" id="mainDrawer">
+    <div class="mainDrawer-scrollContainer">
+      <div style="height:.5em;"></div>
+      <a class="navMenuOption">
+        <span class="material-icons navMenuOptionIcon">home</span>
+        <span class="navMenuOptionText">Startseite</span>
+      </a>
+      <div class="libraryMenuOptions">
+        <h3 class="sidebarHeader">Medien</h3>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">movie</span><span>Filme</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">movie</span><span>Filme (Animation)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">movie</span><span>Filme (Anime)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">movie</span><span>Filme (Live-Action)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">music_note</span><span>Musik</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">tv</span><span>Serien</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">tv</span><span>Serien (Animation)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">tv</span><span>Serien (Anime)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">tv</span><span>Serien (Live-Action)</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">quiz</span><span>Unsortiert</span></a>
+      </div>
+      <div class="adminMenuOptions">
+        <h3 class="sidebarHeader">Administration</h3>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">dashboard</span><span>Übersicht</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">mode_edit</span><span>Metadaten-Manager</span></a>
+      </div>
+      <div class="userMenuOptions">
+        <h3 class="sidebarHeader">Benutzer</h3>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">settings</span><span>Einstellungen</span></a>
+        <a class="navMenuOption"><span class="material-icons navMenuOptionIcon">exit_to_app</span><span>Abmelden</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="skinHeader skinHeader-withBackground skinHeader-blurred" style="margin-top: 28px;">
+    <div class="headerTop">
+      <div class="headerLeft">
+        <button class="headerButton paper-icon-button-light" title="Menü" onclick="toggleDrawer()">
+          <span class="material-icons">menu</span>
+        </button>
+        <button class="headerButton headerHomeButton paper-icon-button-light" title="Startseite">
+          <span class="material-icons">home</span>
+        </button>
+        <h3 class="pageTitle pageTitleWithLogo pageTitleWithDefaultLogo">AURUM</h3>
+      </div>
+      <div class="headerRight">
+        <button class="headerButton headerSyncButton paper-icon-button-light" title="Synchronwiedergabe">
+          <span class="material-icons">groups</span>
+        </button>
+        <button class="headerButton headerCastButton paper-icon-button-light" title="Auf Gerät wiedergeben">
+          <span class="material-icons">cast</span>
+        </button>
+        <button class="headerButton headerSearchButton paper-icon-button-light" title="Suche">
+          <span class="material-icons">search</span>
+        </button>
+        <button class="headerButton headerUserButton headerUserButtonRound paper-icon-button-light" title="root"></button>
+      </div>
+    </div>
+    <div class="headerTabs sectionTabs">
+      <div class="emby-tabs">
+        <button class="emby-tab-button emby-tab-button-active"><div class="emby-button-foreground">Startseite</div></button>
+        <button class="emby-tab-button"><div class="emby-button-foreground">Favoriten</div></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="mainAnimatedPages skinBody" style="margin-top: 128px;">
+    <div class="homeSectionsContainer">
+
+      <!-- Section: Meine Medien -->
+      <div class="verticalSection section0 emby-scroller-container">
+        <h2 class="sectionTitle sectionTitle-cards padded-left">Meine Medien</h2>
+        <div class="emby-scrollbuttons padded-right">
+          <button class="emby-scrollbuttons-button paper-icon-button-light"><span class="material-icons">chevron_left</span></button>
+          <button class="emby-scrollbuttons-button paper-icon-button-light"><span class="material-icons">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Filme</div><div class="cardText cardText-secondary">142 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Filme (Animation)</div><div class="cardText cardText-secondary">38 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Filme (Anime)</div><div class="cardText cardText-secondary">24 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Filme (Live-Action)</div><div class="cardText cardText-secondary">86 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">music_note</span></div></div><div class="cardText">Musik</div><div class="cardText cardText-secondary">512 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">Serien</div><div class="cardText cardText-secondary">67 Titel</div></div></div>
+            <div class="card overflowBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">Serien (Animation)</div><div class="cardText cardText-secondary">19 Titel</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Weiterschauen -->
+      <div class="verticalSection emby-scroller-container">
+        <h2 class="sectionTitle sectionTitle-cards padded-left">Weiterschauen</h2>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #2a1f15, #1a1510);"><span class="cardImageIcon material-icons">play_circle</span></div><div class="itemProgressBar"><div class="itemProgressBar-inner" style="width: 65%;"></div></div></div><div class="cardText">Breaking Bad S3:E7</div><div class="cardText cardText-secondary">Kafkas Metamorphose</div></div></div>
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #1a1520, #0d0b15);"><span class="cardImageIcon material-icons">play_circle</span></div><div class="itemProgressBar"><div class="itemProgressBar-inner" style="width: 32%;"></div></div></div><div class="cardText">The Witcher S2:E4</div><div class="cardText cardText-secondary">Die Stimme des Waldes</div></div></div>
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #15201a, #0b150d);"><span class="cardImageIcon material-icons">play_circle</span></div><div class="itemProgressBar"><div class="itemProgressBar-inner" style="width: 78%;"></div></div></div><div class="cardText">Inception</div><div class="cardText cardText-secondary">1h 24min übrig</div></div></div>
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #201a15, #150d0b);"><span class="cardImageIcon material-icons">play_circle</span></div><div class="itemProgressBar"><div class="itemProgressBar-inner" style="width: 12%;"></div></div></div><div class="cardText">Attack on Titan S4:E1</div><div class="cardText cardText-secondary">Der andere Seite des Meeres</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Als Nächstes -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Als Nächstes</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #1f1a12, #12100a);"><span class="cardImageIcon material-icons">upcoming</span></div></div><div class="cardText">Breaking Bad S3:E8</div><div class="cardText cardText-secondary">Ich sehe dich</div></div></div>
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #12151f, #0a0d15);"><span class="cardImageIcon material-icons">upcoming</span></div></div><div class="cardText">The Witcher S2:E5</div><div class="cardText cardText-secondary">Kehr um</div></div></div>
+            <div class="card overflowSmallBackdropCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowBackdrop" style="background: linear-gradient(135deg, #1a1215, #100a0d);"><span class="cardImageIcon material-icons">upcoming</span></div></div><div class="cardText">Attack on Titan S4:E2</div><div class="cardText cardText-secondary">Midnight Train</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Kürzlich hinzugefügt in Filme -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Kürzlich hinzugefügt in Filme</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #2a2015, #151008);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div><div class="indicator countIndicator">NEU</div></div><div class="cardText">Dune: Part Two</div><div class="cardText cardText-secondary">2024</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #15202a, #081015);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div></div><div class="cardText">Oppenheimer</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #201a15, #100d08);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div></div><div class="cardText">Poor Things</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #1a1520, #0d0815);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div></div><div class="cardText">Killers of the Flower Moon</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #20151a, #15080d);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div></div><div class="cardText">The Zone of Interest</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #1a2015, #0d1508);"><span class="cardImageIcon material-icons">movie</span></div><div class="cardOverlayContainer"><button class="cardOverlayButton paper-icon-button-light"><span class="material-icons">play_arrow</span></button></div></div><div class="cardText">Past Lives</div><div class="cardText cardText-secondary">2023</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Kürzlich hinzugefügt in Filme (Animation) -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Kürzlich hinzugefügt in Filme (Animation)</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #251f12, #12100a);"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Der Junge und der Reiher</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #1f1225, #100a12);"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Spider-Verse 2</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #12251f, #0a1210);"><span class="cardImageIcon material-icons">movie</span></div></div><div class="cardText">Elemental</div><div class="cardText cardText-secondary">2023</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Kürzlich hinzugefügt in Serien -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Kürzlich hinzugefügt in Serien</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #25201a, #121510);"><span class="cardImageIcon material-icons">tv</span></div><div class="indicator countIndicator">3</div></div><div class="cardText">Shogun</div><div class="cardText cardText-secondary">2024</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #1a2025, #101215);"><span class="cardImageIcon material-icons">tv</span></div><div class="indicator countIndicator">8</div></div><div class="cardText">True Detective S4</div><div class="cardText cardText-secondary">2024</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #20251a, #121015);"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">Fallout</div><div class="cardText cardText-secondary">2024</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #251a20, #151012);"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">3 Body Problem</div><div class="cardText cardText-secondary">2024</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Kürzlich hinzugefügt in Musik -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Kürzlich hinzugefügt in Musik</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowSquareCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowSquare" style="background: linear-gradient(135deg, #2a2015, #151008);"><span class="cardImageIcon material-icons">album</span></div></div><div class="cardText">Random Access Memories</div><div class="cardText cardText-secondary">Daft Punk</div></div></div>
+            <div class="card overflowSquareCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowSquare" style="background: linear-gradient(135deg, #15202a, #081015);"><span class="cardImageIcon material-icons">album</span></div></div><div class="cardText">In Rainbows</div><div class="cardText cardText-secondary">Radiohead</div></div></div>
+            <div class="card overflowSquareCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowSquare" style="background: linear-gradient(135deg, #201a15, #100d08);"><span class="cardImageIcon material-icons">album</span></div></div><div class="cardText">The Dark Side of the Moon</div><div class="cardText cardText-secondary">Pink Floyd</div></div></div>
+            <div class="card overflowSquareCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowSquare" style="background: linear-gradient(135deg, #1a1520, #0d0815);"><span class="cardImageIcon material-icons">album</span></div></div><div class="cardText">Kind of Blue</div><div class="cardText cardText-secondary">Miles Davis</div></div></div>
+            <div class="card overflowSquareCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowSquare" style="background: linear-gradient(135deg, #1f1a12, #12100a);"><span class="cardImageIcon material-icons">album</span></div></div><div class="cardText">Abbey Road</div><div class="cardText cardText-secondary">The Beatles</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section: Kürzlich hinzugefügt in Serien (Anime) -->
+      <div class="verticalSection emby-scroller-container">
+        <div class="sectionTitleContainer-cards">
+          <h2 class="sectionTitle sectionTitle-cards">Kürzlich hinzugefügt in Serien (Anime)</h2>
+          <button class="sectionTitleTextButton emby-button"><span class="material-icons" style="font-size: 18px;">chevron_right</span></button>
+        </div>
+        <div class="emby-scroller">
+          <div class="scrollSlider">
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #251a12, #150d0a);"><span class="cardImageIcon material-icons">tv</span></div><div class="indicator countIndicator">12</div></div><div class="cardText">Frieren</div><div class="cardText cardText-secondary">2023</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #1a1225, #0d0a15);"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">Solo Leveling</div><div class="cardText cardText-secondary">2024</div></div></div>
+            <div class="card overflowPortraitCard"><div class="cardBox cardBox-bottompadded"><div class="cardScalable"><div class="cardPadder-overflowPortrait" style="background: linear-gradient(180deg, #12251a, #0a150d);"><span class="cardImageIcon material-icons">tv</span></div></div><div class="cardText">Oshi no Ko S2</div><div class="cardText cardText-secondary">2024</div></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Now Playing Bar -->
+  <div class="nowPlayingBar">
+    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #2a2015, #151008); border-radius: 4px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;">
+      <span class="material-icons" style="font-size: 20px;">music_note</span>
+    </div>
+    <div style="min-width: 0;">
+      <div class="nowPlayingBarText" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Bohemian Rhapsody</div>
+      <div class="nowPlayingBarSecondaryText">Queen</div>
+    </div>
+    <div class="nowPlayingBarControls">
+      <button class="paper-icon-button-light" style="width: 40px; height: 40px;"><span class="material-icons">skip_previous</span></button>
+      <button class="paper-icon-button-light" style="width: 44px; height: 44px;"><span class="material-icons" style="font-size: 32px;">pause</span></button>
+      <button class="paper-icon-button-light" style="width: 40px; height: 40px;"><span class="material-icons">skip_next</span></button>
+      <button class="paper-icon-button-light" style="width: 40px; height: 40px;"><span class="material-icons">volume_up</span></button>
+    </div>
+  </div>
+
+  <script>
+    function toggleDrawer() {
+      const drawer = document.getElementById('mainDrawer');
+      const overlay = document.getElementById('drawerOverlay');
+      drawer.classList.toggle('open');
+      overlay.classList.toggle('active');
+    }
+
+    function setView(view) {
+      const html = document.documentElement;
+      html.classList.remove('layout-desktop', 'layout-mobile', 'layout-tv');
+      document.querySelectorAll('.preview-bar button').forEach(b => b.classList.remove('active'));
+
+      if (view === 'tv') {
+        html.classList.add('layout-tv');
+        document.getElementById('btn-tv').classList.add('active');
+      } else if (view === 'mobile') {
+        html.classList.add('layout-mobile');
+        document.getElementById('btn-mobile').classList.add('active');
+      } else {
+        html.classList.add('layout-desktop');
+        document.getElementById('btn-desktop').classList.add('active');
+      }
+    }
+  </script>
+</body>
+</html>
