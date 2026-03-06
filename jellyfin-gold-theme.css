@@ -175,6 +175,7 @@ body {
   backdrop-filter: blur(20px) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   color: var(--aurum-text-primary) !important;
+  padding-bottom: 10px !important;
 }
 
 .skinHeader-withBackground {
@@ -287,6 +288,12 @@ body {
 
 .mainDrawer-scrollContainer {
   background: var(--aurum-bg-surface) !important;
+}
+
+/* Drawer-Overlay — halbtransparent, damit die Seite nicht komplett dunkel wird */
+.navdrawer-mask,
+.dialogBackdrop {
+  background: rgba(5, 5, 3, 0.5) !important;
 }
 
 /* Section headers in sidebar */
@@ -424,7 +431,6 @@ body {
 .cardBox:hover {
   border-color: var(--aurum-gold-dark) !important;
   box-shadow: var(--aurum-shadow-gold) !important;
-  background: var(--aurum-bg-elevated) !important;
 }
 
 .cardBox:focus-within {
@@ -831,6 +837,19 @@ body {
   border: 1px solid var(--aurum-border-gold) !important;
   border-radius: var(--aurum-radius-lg) !important;
   overflow: hidden !important;
+  width: 40% !important;
+  min-width: 320px !important;
+  flex-shrink: 0 !important;
+}
+
+/* Detail-Seite: Karten in "Ähnliche Titel" / Staffel-Übersicht 1/3 größer */
+.detailPage .cardBox,
+.itemDetailPage .cardBox,
+.itemsContainer-tv .cardBox {
+  transform: scale(1.33) !important;
+  transform-origin: top left !important;
+  margin-right: 2.5em !important;
+  margin-bottom: 2.5em !important;
 }
 
 /* Item name / title */
