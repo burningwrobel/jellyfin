@@ -1,0 +1,1758 @@
+/*
+ * ═══════════════════════════════════════════════════════════════
+ *   JELLYFIN AURUM — Luxury Gold Cinema Theme
+ *   A premium, handcrafted CSS theme for Jellyfin Media Server
+ *   Optimized for 4K TV · Desktop · Mobile
+ *   All animations disabled for instant response
+ * ═══════════════════════════════════════════════════════════════
+ */
+
+/* ─── TYPOGRAPHY ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Jost:wght@300;400;500;600;700&display=swap');
+
+/* ─── CSS CUSTOM PROPERTIES ──────────────────────────────────── */
+:root {
+  /* Gold Palette */
+  --aurum-gold:           #C9A84C;
+  --aurum-gold-light:     #E8D5A3;
+  --aurum-gold-dark:      #8B7332;
+  --aurum-gold-accent:    #FFD700;
+  --aurum-gold-muted:     #A08C4A;
+  --aurum-gold-shimmer:   #D4AF37;
+  --aurum-gold-deep:      #705D2C;
+  --aurum-gold-pale:      #F0E6C8;
+
+  /* Backgrounds */
+  --aurum-bg-void:        #050505;
+  --aurum-bg-deep:        #0A0A08;
+  --aurum-bg-base:        #0E0D0B;
+  --aurum-bg-surface:     #151311;
+  --aurum-bg-card:        #1A1714;
+  --aurum-bg-elevated:    #201C17;
+  --aurum-bg-hover:       #2A2419;
+  --aurum-bg-active:      #33291D;
+
+  /* Text */
+  --aurum-text-primary:   #F5F0E1;
+  --aurum-text-secondary: #BFB8A3;
+  --aurum-text-muted:     #8A8272;
+  --aurum-text-gold:      #C9A84C;
+
+  /* Borders & Lines */
+  --aurum-border:         #2A2318;
+  --aurum-border-gold:    rgba(201, 168, 76, 0.25);
+  --aurum-border-strong:  rgba(201, 168, 76, 0.5);
+
+  /* Overlays */
+  --aurum-overlay:        rgba(5, 5, 3, 0.85);
+  --aurum-overlay-light:  rgba(5, 5, 3, 0.6);
+
+  /* Shadows */
+  --aurum-shadow:         0 2px 12px rgba(0, 0, 0, 0.5);
+  --aurum-shadow-gold:    0 2px 20px rgba(201, 168, 76, 0.1);
+  --aurum-shadow-deep:    0 8px 32px rgba(0, 0, 0, 0.7);
+
+  /* Spacing Scale */
+  --aurum-space-xs:       0.25rem;
+  --aurum-space-sm:       0.5rem;
+  --aurum-space-md:       1rem;
+  --aurum-space-lg:       1.5rem;
+  --aurum-space-xl:       2rem;
+  --aurum-space-2xl:      3rem;
+
+  /* Border Radius */
+  --aurum-radius-sm:      4px;
+  --aurum-radius-md:      6px;
+  --aurum-radius-lg:      10px;
+  --aurum-radius-xl:      14px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §1  GLOBAL ANIMATION KILL
+   ═══════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  animation: none !important;
+  animation-delay: 0s !important;
+  animation-duration: 0s !important;
+  transition: none !important;
+  transition-delay: 0s !important;
+  transition-duration: 0s !important;
+  scroll-behavior: auto !important;
+}
+
+.animatedScrollX,
+.animatedScrollY,
+.backdropImageFadeIn,
+.backdropImage {
+  animation: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+}
+
+.itemsContainer {
+  will-change: auto !important;
+}
+
+html.preload {
+  transition: none !important;
+}
+
+body[unresolved] {
+  opacity: 1 !important;
+  transition: none !important;
+}
+
+body {
+  transition: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §2  BASE & BODY
+   ═══════════════════════════════════════════════════════════════ */
+
+html {
+  background-color: var(--aurum-bg-void) !important;
+}
+
+body {
+  background-color: var(--aurum-bg-deep) !important;
+  color: var(--aurum-text-primary) !important;
+  font-family: 'Jost', 'Segoe UI', sans-serif !important;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Preload background */
+.preload {
+  background-color: var(--aurum-bg-void) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §3  BACKDROP & BACKGROUND
+   ═══════════════════════════════════════════════════════════════ */
+
+.backdropContainer {
+  opacity: 0.35 !important;
+}
+
+.backdropImage {
+  opacity: 1 !important;
+  filter: saturate(0.3) brightness(0.4) sepia(0.4) !important;
+}
+
+.backgroundContainer {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 8, 0.7) 0%,
+    rgba(10, 10, 8, 0.95) 60%,
+    var(--aurum-bg-deep) 100%
+  ) !important;
+}
+
+.backgroundContainer.withBackdrop {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 10, 8, 0.5) 0%,
+    rgba(10, 10, 8, 0.85) 50%,
+    var(--aurum-bg-deep) 100%
+  ) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §4  HEADER / TOP BAR
+   ═══════════════════════════════════════════════════════════════ */
+
+.skinHeader {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 13, 11, 0.97) 0%,
+    rgba(14, 13, 11, 0.92) 100%
+  ) !important;
+  border-bottom: 1px solid var(--aurum-border-gold) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.skinHeader-withBackground {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 13, 11, 0.97) 0%,
+    rgba(14, 13, 11, 0.92) 100%
+  ) !important;
+}
+
+.skinHeader-blurred {
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+
+/* Header buttons */
+.skinHeader .headerButton {
+  color: var(--aurum-gold) !important;
+}
+
+.skinHeader .headerButton:hover {
+  color: var(--aurum-gold-accent) !important;
+  background: rgba(201, 168, 76, 0.1) !important;
+}
+
+.skinHeader .headerButton:focus-visible {
+  outline: 2px solid var(--aurum-gold) !important;
+  outline-offset: 2px;
+}
+
+/* Page title / logo area */
+.pageTitle,
+.pageTitleWithLogo {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+/* User avatar button */
+.headerUserButton,
+.headerUserButtonRound {
+  border: 2px solid var(--aurum-gold-dark) !important;
+  border-radius: 50% !important;
+}
+
+.headerUserButton:hover,
+.headerUserButtonRound:hover {
+  border-color: var(--aurum-gold) !important;
+  box-shadow: 0 0 12px rgba(201, 168, 76, 0.3) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §5  HEADER TABS (Startseite / Favoriten)
+   ═══════════════════════════════════════════════════════════════ */
+
+.headerTabs {
+  background: transparent !important;
+}
+
+.headerTabs .emby-tabs {
+  border-bottom: 1px solid var(--aurum-border) !important;
+}
+
+.emby-tab-button {
+  color: var(--aurum-text-muted) !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 500 !important;
+  font-size: 0.9rem !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  padding: 0.8em 1.5em !important;
+  border-bottom: 2px solid transparent !important;
+  background: transparent !important;
+}
+
+.emby-tab-button:hover {
+  color: var(--aurum-gold-light) !important;
+  background: rgba(201, 168, 76, 0.05) !important;
+}
+
+.emby-tab-button-active,
+.emby-tab-button.is-active {
+  color: var(--aurum-gold) !important;
+  border-bottom: 2px solid var(--aurum-gold) !important;
+  background: transparent !important;
+}
+
+.emby-tab-button .emby-button-foreground {
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+}
+
+/* Tab underline indicator */
+.tabsContainerHeader,
+.tabs-viewmenubar {
+  background: transparent !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §6  SIDE DRAWER / NAVIGATION MENU
+   ═══════════════════════════════════════════════════════════════ */
+
+.mainDrawer {
+  background: var(--aurum-bg-surface) !important;
+  border-right: 1px solid var(--aurum-border-gold) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.5) !important;
+}
+
+.mainDrawer-scrollContainer {
+  background: var(--aurum-bg-surface) !important;
+}
+
+/* Section headers in sidebar */
+.sidebarHeader {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold-dark) !important;
+  font-weight: 700 !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.2em !important;
+  text-transform: uppercase !important;
+  padding: 1.2em 1em 0.4em 1em !important;
+  border-top: 1px solid var(--aurum-border) !important;
+  margin-top: 0.5em !important;
+}
+
+/* Navigation menu items */
+.navMenuOption {
+  color: var(--aurum-text-secondary) !important;
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 400 !important;
+  font-size: 0.95rem !important;
+  letter-spacing: 0.02em !important;
+  padding: 0.6em 1em !important;
+  border-left: 3px solid transparent !important;
+  border-radius: 0 !important;
+}
+
+.navMenuOption:hover {
+  color: var(--aurum-gold-light) !important;
+  background: rgba(201, 168, 76, 0.08) !important;
+  border-left-color: var(--aurum-gold-muted) !important;
+}
+
+.navMenuOption:focus-visible {
+  outline: 2px solid var(--aurum-gold) !important;
+  outline-offset: -2px;
+}
+
+/* Active menu item */
+.navMenuOption-selected,
+.navMenuOption.emby-tab-button-active {
+  color: var(--aurum-gold) !important;
+  background: rgba(201, 168, 76, 0.1) !important;
+  border-left-color: var(--aurum-gold) !important;
+  font-weight: 500 !important;
+}
+
+/* Navigation icons */
+.navMenuOptionIcon {
+  color: var(--aurum-gold-muted) !important;
+  font-size: 1.2em !important;
+}
+
+.navMenuOption:hover .navMenuOptionIcon {
+  color: var(--aurum-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §7  SECTION TITLES
+   ═══════════════════════════════════════════════════════════════ */
+
+.sectionTitle {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+  font-size: 1.3rem !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+}
+
+.sectionTitle-cards {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em !important;
+}
+
+/* "More" / section title buttons */
+.sectionTitleTextButton {
+  color: var(--aurum-gold-muted) !important;
+  font-family: 'Jost', sans-serif !important;
+  font-size: 0.8rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+.sectionTitleTextButton:hover {
+  color: var(--aurum-gold-accent) !important;
+}
+
+/* Section title icon buttons (arrows) */
+.sectionTitleIconButton,
+.sectionTitleTextButton .material-icons {
+  color: var(--aurum-gold-muted) !important;
+}
+
+/* Vertical section spacing */
+.verticalSection {
+  margin-bottom: var(--aurum-space-lg) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §8  SCROLL BUTTONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.emby-scrollbuttons-button {
+  color: var(--aurum-gold) !important;
+  background: var(--aurum-bg-elevated) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: 50% !important;
+}
+
+.emby-scrollbuttons-button:hover {
+  background: var(--aurum-bg-hover) !important;
+  color: var(--aurum-gold-accent) !important;
+  border-color: var(--aurum-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §9  MEDIA CARDS — Core
+   ═══════════════════════════════════════════════════════════════ */
+
+.card {
+  background: transparent !important;
+}
+
+.cardBox {
+  background: var(--aurum-bg-card) !important;
+  border: 1px solid var(--aurum-border) !important;
+  border-radius: var(--aurum-radius-lg) !important;
+  overflow: hidden !important;
+  box-shadow: var(--aurum-shadow) !important;
+}
+
+.cardBox:hover {
+  border-color: var(--aurum-gold-dark) !important;
+  box-shadow: var(--aurum-shadow-gold) !important;
+  background: var(--aurum-bg-elevated) !important;
+}
+
+.cardBox:focus-within {
+  border-color: var(--aurum-gold) !important;
+  outline: none !important;
+}
+
+.cardScalable {
+  border-radius: var(--aurum-radius-lg) var(--aurum-radius-lg) 0 0 !important;
+  overflow: hidden !important;
+}
+
+.cardImageContainer {
+  background-color: var(--aurum-bg-surface) !important;
+  border-radius: 0 !important;
+}
+
+/* Card placeholder icon */
+.cardImageIcon {
+  color: var(--aurum-gold-dark) !important;
+  opacity: 0.5;
+}
+
+.cardPadder-overflowBackdrop {
+  background: var(--aurum-bg-surface) !important;
+}
+
+.cardPadder-overflowBackdrop .cardImageIcon {
+  color: var(--aurum-gold-muted) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §10  MEDIA CARDS — Text & Footer
+   ═══════════════════════════════════════════════════════════════ */
+
+.cardText {
+  color: var(--aurum-text-primary) !important;
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.01em !important;
+}
+
+.cardText-secondary {
+  color: var(--aurum-text-muted) !important;
+  font-size: 0.85em !important;
+}
+
+.cardText a,
+.cardText button {
+  color: var(--aurum-text-primary) !important;
+}
+
+.cardText a:hover,
+.cardText button:hover {
+  color: var(--aurum-gold-light) !important;
+}
+
+.innerCardFooter {
+  background: linear-gradient(
+    0deg,
+    rgba(10, 10, 8, 0.95) 0%,
+    rgba(10, 10, 8, 0.7) 70%,
+    transparent 100%
+  ) !important;
+  padding: var(--aurum-space-sm) var(--aurum-space-md) !important;
+}
+
+.innerCardFooter .cardText {
+  color: var(--aurum-text-primary) !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Card overlay buttons (play, more) */
+.cardOverlayButton {
+  color: var(--aurum-gold) !important;
+  background: rgba(10, 10, 8, 0.8) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: 50% !important;
+}
+
+.cardOverlayButton:hover {
+  background: rgba(201, 168, 76, 0.2) !important;
+  color: var(--aurum-gold-accent) !important;
+  border-color: var(--aurum-gold) !important;
+}
+
+/* Card overlay fade container */
+.cardOverlayContainer {
+  background: linear-gradient(
+    0deg,
+    rgba(5, 5, 3, 0.8) 0%,
+    transparent 100%
+  ) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §11  PROGRESS BAR & INDICATORS
+   ═══════════════════════════════════════════════════════════════ */
+
+.itemProgressBar {
+  background: rgba(201, 168, 76, 0.15) !important;
+  border-radius: 0 !important;
+  height: 3px !important;
+}
+
+.itemProgressBar-inner,
+.itemProgressBarForeground {
+  background: linear-gradient(
+    90deg,
+    var(--aurum-gold-dark) 0%,
+    var(--aurum-gold) 50%,
+    var(--aurum-gold-accent) 100%
+  ) !important;
+  border-radius: 0 !important;
+}
+
+/* Count / Unplayed indicators */
+.indicator {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 0.7rem !important;
+  border-radius: var(--aurum-radius-sm) !important;
+}
+
+.countIndicator {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+.playedIndicator {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+/* Progress ring */
+.progressring {
+  border-color: var(--aurum-gold-dark) !important;
+}
+
+.progressring-spiner {
+  border-color: var(--aurum-gold) !important;
+}
+
+.progressring-text {
+  color: var(--aurum-gold) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §12  BUTTONS & CONTROLS (General)
+   ═══════════════════════════════════════════════════════════════ */
+
+.paper-icon-button-light {
+  color: var(--aurum-text-secondary) !important;
+}
+
+.paper-icon-button-light:hover {
+  color: var(--aurum-gold) !important;
+  background: rgba(201, 168, 76, 0.1) !important;
+}
+
+.emby-button,
+.button-submit,
+.raised {
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.06em !important;
+  border-radius: var(--aurum-radius-sm) !important;
+}
+
+/* Primary / Submit buttons */
+.button-submit,
+.emby-button.block {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+  border: none !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+}
+
+.button-submit:hover,
+.emby-button.block:hover {
+  background: var(--aurum-gold-accent) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+/* Raised / Accent buttons */
+.raised {
+  background: var(--aurum-bg-elevated) !important;
+  color: var(--aurum-gold) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+}
+
+.raised:hover {
+  background: var(--aurum-bg-hover) !important;
+  border-color: var(--aurum-gold) !important;
+}
+
+/* Fab / Floating action buttons */
+.fab {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+.fab:hover {
+  background: var(--aurum-gold-accent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §13  NOW PLAYING BAR
+   ═══════════════════════════════════════════════════════════════ */
+
+.nowPlayingBar {
+  background: linear-gradient(
+    0deg,
+    rgba(14, 13, 11, 0.98) 0%,
+    rgba(14, 13, 11, 0.95) 100%
+  ) !important;
+  border-top: 1px solid var(--aurum-border-gold) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.nowPlayingBar .nowPlayingBarText {
+  color: var(--aurum-text-primary) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+.nowPlayingBar .nowPlayingBarSecondaryText {
+  color: var(--aurum-text-muted) !important;
+}
+
+.nowPlayingBar .paper-icon-button-light {
+  color: var(--aurum-gold-muted) !important;
+}
+
+.nowPlayingBar .paper-icon-button-light:hover {
+  color: var(--aurum-gold-accent) !important;
+}
+
+/* Now playing progress */
+.nowPlayingBarPositionSlider,
+.mdl-slider {
+  accent-color: var(--aurum-gold) !important;
+}
+
+.sliderBubble {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §14  DIALOGS & POPUPS
+   ═══════════════════════════════════════════════════════════════ */
+
+.dialog,
+.formDialogContent,
+.dialogContainer {
+  background: var(--aurum-bg-surface) !important;
+  color: var(--aurum-text-primary) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-xl) !important;
+  box-shadow: var(--aurum-shadow-deep) !important;
+}
+
+.formDialogHeader {
+  background: transparent !important;
+  color: var(--aurum-gold) !important;
+  border-bottom: 1px solid var(--aurum-border) !important;
+}
+
+.formDialogHeaderTitle {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.formDialogFooter {
+  border-top: 1px solid var(--aurum-border) !important;
+  background: transparent !important;
+}
+
+/* Action Sheet (context menus) */
+.actionSheet {
+  background: var(--aurum-bg-surface) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-lg) !important;
+  box-shadow: var(--aurum-shadow-deep) !important;
+}
+
+.actionSheetMenuItem {
+  color: var(--aurum-text-primary) !important;
+}
+
+.actionSheetMenuItem:hover {
+  background: rgba(201, 168, 76, 0.1) !important;
+  color: var(--aurum-gold-light) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §15  FORM ELEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+.emby-input,
+.emby-textarea,
+.emby-select {
+  background: var(--aurum-bg-card) !important;
+  color: var(--aurum-text-primary) !important;
+  border: 1px solid var(--aurum-border) !important;
+  border-radius: var(--aurum-radius-sm) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+.emby-input:focus,
+.emby-textarea:focus,
+.emby-select:focus {
+  border-color: var(--aurum-gold) !important;
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.15) !important;
+  outline: none !important;
+}
+
+.inputLabel,
+.fieldDescription {
+  color: var(--aurum-text-secondary) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+.inputLabelFocused {
+  color: var(--aurum-gold) !important;
+}
+
+/* Checkboxes & Toggles */
+.emby-checkbox:checked + span + .checkboxOutline {
+  border-color: var(--aurum-gold) !important;
+  background-color: var(--aurum-gold) !important;
+}
+
+.checkboxOutline {
+  border-color: var(--aurum-gold-dark) !important;
+}
+
+.emby-checkbox:focus + span + .checkboxOutline {
+  border-color: var(--aurum-gold) !important;
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.2) !important;
+}
+
+/* Toggle / Switch */
+.emby-toggle {
+  accent-color: var(--aurum-gold) !important;
+}
+
+.toggleContainer .mdl-switch__label {
+  color: var(--aurum-text-secondary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §16  SCROLLBARS
+   ═══════════════════════════════════════════════════════════════ */
+
+::-webkit-scrollbar {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--aurum-bg-base) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--aurum-gold-deep) !important;
+  border-radius: 4px !important;
+  border: 2px solid var(--aurum-bg-base) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--aurum-gold-dark) !important;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--aurum-bg-base) !important;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-color: var(--aurum-gold-deep) var(--aurum-bg-base) !important;
+  scrollbar-width: thin !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §17  DETAIL / ITEM PAGES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Detail page hero */
+.detailPageWrapperContainer {
+  background: var(--aurum-bg-deep) !important;
+}
+
+.detailImageContainer {
+  box-shadow: var(--aurum-shadow-deep) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-lg) !important;
+  overflow: hidden !important;
+}
+
+/* Item name / title */
+.itemName {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-text-primary) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+}
+
+h1.itemName {
+  font-size: 2rem !important;
+}
+
+/* Item overview text */
+.overview-text,
+.itemOverview {
+  color: var(--aurum-text-secondary) !important;
+  font-family: 'Jost', sans-serif !important;
+  line-height: 1.6 !important;
+}
+
+/* Metadata / item details */
+.mediaInfoItem {
+  color: var(--aurum-text-muted) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+.starRatingContainer .material-icons {
+  color: var(--aurum-gold) !important;
+}
+
+.mediaInfoCriticRating,
+.mediaInfoCriticRatingFresh {
+  color: var(--aurum-gold) !important;
+}
+
+/* Genres, Tags, Studios links */
+.itemTag,
+.mediaInfoItem a {
+  color: var(--aurum-gold-muted) !important;
+}
+
+.itemTag:hover,
+.mediaInfoItem a:hover {
+  color: var(--aurum-gold-accent) !important;
+}
+
+/* Detail page buttons */
+.detailButton {
+  background: var(--aurum-bg-elevated) !important;
+  color: var(--aurum-gold) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-md) !important;
+}
+
+.detailButton:hover {
+  background: var(--aurum-bg-hover) !important;
+  border-color: var(--aurum-gold) !important;
+  color: var(--aurum-gold-accent) !important;
+}
+
+.detailButton .detailButton-content {
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.04em !important;
+}
+
+/* Play button (primary action) */
+.btnPlay,
+.detailButton-primary {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+  border: 1px solid var(--aurum-gold) !important;
+}
+
+.btnPlay:hover,
+.detailButton-primary:hover {
+  background: var(--aurum-gold-accent) !important;
+  border-color: var(--aurum-gold-accent) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §18  LIST VIEWS / TABLE VIEWS
+   ═══════════════════════════════════════════════════════════════ */
+
+.listItem {
+  background: transparent !important;
+  border-bottom: 1px solid var(--aurum-border) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.listItem:hover {
+  background: rgba(201, 168, 76, 0.05) !important;
+}
+
+.listItemBody {
+  color: var(--aurum-text-primary) !important;
+}
+
+.listItemBody .secondary {
+  color: var(--aurum-text-muted) !important;
+}
+
+.listItemIcon {
+  color: var(--aurum-gold-muted) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §19  TOAST / NOTIFICATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+.toast {
+  background: var(--aurum-bg-elevated) !important;
+  color: var(--aurum-text-primary) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-md) !important;
+  font-family: 'Jost', sans-serif !important;
+  box-shadow: var(--aurum-shadow-deep) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §20  SELECTION & LINKS
+   ═══════════════════════════════════════════════════════════════ */
+
+::selection {
+  background: rgba(201, 168, 76, 0.3) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+a {
+  color: var(--aurum-gold-muted) !important;
+}
+
+a:hover {
+  color: var(--aurum-gold-light) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §21  LOGIN PAGE
+   ═══════════════════════════════════════════════════════════════ */
+
+.loginPage {
+  background: var(--aurum-bg-void) !important;
+}
+
+.manualLoginForm {
+  background: var(--aurum-bg-surface) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+  border-radius: var(--aurum-radius-xl) !important;
+  padding: var(--aurum-space-xl) !important;
+  box-shadow: var(--aurum-shadow-gold) !important;
+}
+
+#loginPage .padded-left.padded-right h1,
+.loginPage h1 {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+
+/* User cards on login */
+.card-hoverable .cardBox {
+  border: 1px solid var(--aurum-border) !important;
+}
+
+.card-hoverable:hover .cardBox {
+  border-color: var(--aurum-gold-dark) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §22  ADMIN / DASHBOARD
+   ═══════════════════════════════════════════════════════════════ */
+
+.dashboardSection {
+  background: var(--aurum-bg-surface) !important;
+  border: 1px solid var(--aurum-border) !important;
+  border-radius: var(--aurum-radius-lg) !important;
+}
+
+.dashboardSection h2,
+.dashboardSection h3 {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+}
+
+/* Admin tables */
+.tblLibrary,
+.stripedTable {
+  border-color: var(--aurum-border) !important;
+}
+
+.tblLibrary td,
+.stripedTable td,
+.tblLibrary th,
+.stripedTable th {
+  border-color: var(--aurum-border) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.tblLibrary th,
+.stripedTable th {
+  background: var(--aurum-bg-elevated) !important;
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-gold) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.05em !important;
+}
+
+.stripedTable tr:nth-child(even) {
+  background: var(--aurum-bg-card) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §23  LIBRARY / FILTER BAR
+   ═══════════════════════════════════════════════════════════════ */
+
+.alphaPicker {
+  background: transparent !important;
+}
+
+.alphaPicker-letter {
+  color: var(--aurum-text-muted) !important;
+  font-family: 'Cinzel', serif !important;
+  font-weight: 600 !important;
+}
+
+.alphaPicker-letter:hover {
+  color: var(--aurum-gold-light) !important;
+}
+
+.alphaPicker-letter-selected {
+  color: var(--aurum-gold) !important;
+  background: rgba(201, 168, 76, 0.1) !important;
+  border-radius: var(--aurum-radius-sm) !important;
+}
+
+/* Filter buttons */
+.btnFilter,
+.btnSort {
+  color: var(--aurum-gold-muted) !important;
+  border: 1px solid var(--aurum-border) !important;
+}
+
+.btnFilter:hover,
+.btnSort:hover {
+  color: var(--aurum-gold) !important;
+  border-color: var(--aurum-border-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §24  VIDEO PLAYER / OSD
+   ═══════════════════════════════════════════════════════════════ */
+
+.videoOsdBottom {
+  background: linear-gradient(
+    0deg,
+    rgba(5, 5, 3, 0.9) 0%,
+    rgba(5, 5, 3, 0.6) 60%,
+    transparent 100%
+  ) !important;
+}
+
+.osdControls .paper-icon-button-light {
+  color: var(--aurum-gold-light) !important;
+}
+
+.osdControls .paper-icon-button-light:hover {
+  color: var(--aurum-gold-accent) !important;
+}
+
+.osdTimeText {
+  color: var(--aurum-gold-light) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+.osdTitle {
+  font-family: 'Cinzel', serif !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §25  MISC ELEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Blurhash canvas */
+.blurhash-canvas {
+  opacity: 0.6 !important;
+}
+
+/* Loading spinner */
+.docspinner {
+  border-color: var(--aurum-gold) !important;
+}
+
+.mdl-spinner__layer {
+  border-color: var(--aurum-gold) !important;
+}
+
+/* Empty content message */
+.noItemsMessage {
+  color: var(--aurum-text-muted) !important;
+  font-family: 'Jost', sans-serif !important;
+}
+
+/* Chip / Pill elements */
+.emby-chip {
+  background: var(--aurum-bg-elevated) !important;
+  color: var(--aurum-gold-muted) !important;
+  border: 1px solid var(--aurum-border) !important;
+  border-radius: 20px !important;
+}
+
+.emby-chip:hover {
+  border-color: var(--aurum-border-gold) !important;
+  color: var(--aurum-gold) !important;
+}
+
+/* Tooltip */
+[title]:hover::after {
+  background: var(--aurum-bg-elevated) !important;
+  color: var(--aurum-gold-light) !important;
+  border: 1px solid var(--aurum-border-gold) !important;
+}
+
+/* Guide / EPG */
+.programCell {
+  background: var(--aurum-bg-card) !important;
+  border: 1px solid var(--aurum-border) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.programCell:hover {
+  background: var(--aurum-bg-hover) !important;
+  border-color: var(--aurum-border-gold) !important;
+}
+
+.programCell-active {
+  background: rgba(201, 168, 76, 0.1) !important;
+  border-color: var(--aurum-gold-dark) !important;
+}
+
+/* Theme color override */
+#themeColor {
+  content: var(--aurum-bg-base) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §26  GOLD ACCENT DECORATIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Subtle gold line above homepage sections */
+.homeSectionsContainer .verticalSection {
+  border-top: 1px solid var(--aurum-border) !important;
+  padding-top: var(--aurum-space-lg) !important;
+}
+
+.homeSectionsContainer .verticalSection:first-child {
+  border-top: none !important;
+}
+
+/* Refined gold separator for "Meine Medien" section */
+.homeSectionsContainer .section0 .sectionTitle {
+  position: relative !important;
+  padding-bottom: 0.5em !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §27  MATERIAL ICONS COLOR OVERRIDE
+   ═══════════════════════════════════════════════════════════════ */
+
+.material-icons {
+  color: inherit !important;
+}
+
+.skinHeader .material-icons {
+  color: var(--aurum-gold) !important;
+}
+
+.mainDrawer .material-icons {
+  color: var(--aurum-gold-muted) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §28  MUI OVERRIDES (React components)
+   ═══════════════════════════════════════════════════════════════ */
+
+.MuiPaper-root {
+  background-color: var(--aurum-bg-surface) !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.MuiButton-root {
+  font-family: 'Jost', sans-serif !important;
+  letter-spacing: 0.06em !important;
+}
+
+.MuiButton-containedPrimary {
+  background-color: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: var(--aurum-gold-accent) !important;
+}
+
+.MuiButton-outlinedPrimary {
+  border-color: var(--aurum-gold) !important;
+  color: var(--aurum-gold) !important;
+}
+
+.MuiIconButton-root {
+  color: var(--aurum-gold-muted) !important;
+}
+
+.MuiIconButton-root:hover {
+  background-color: rgba(201, 168, 76, 0.1) !important;
+  color: var(--aurum-gold) !important;
+}
+
+.MuiTypography-root {
+  font-family: 'Jost', sans-serif !important;
+  color: var(--aurum-text-primary) !important;
+}
+
+.MuiInputBase-root {
+  color: var(--aurum-text-primary) !important;
+}
+
+.MuiOutlinedInput-notchedOutline {
+  border-color: var(--aurum-border) !important;
+}
+
+.MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: var(--aurum-gold-dark) !important;
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: var(--aurum-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §29  RESPONSIVE — 4K TV (3840×2160+)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media screen and (min-width: 2560px) {
+  :root {
+    --aurum-space-xs:   0.5rem;
+    --aurum-space-sm:   0.75rem;
+    --aurum-space-md:   1.5rem;
+    --aurum-space-lg:   2.5rem;
+    --aurum-space-xl:   3.5rem;
+    --aurum-space-2xl:  5rem;
+    --aurum-radius-sm:  6px;
+    --aurum-radius-md:  10px;
+    --aurum-radius-lg:  16px;
+    --aurum-radius-xl:  22px;
+  }
+
+  body {
+    font-size: 1.3rem !important;
+  }
+
+  /* Larger section titles */
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 2rem !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 0.8em !important;
+  }
+
+  /* Larger card text */
+  .cardText {
+    font-size: 1.15rem !important;
+    padding: 0.4em 0.6em !important;
+  }
+
+  /* Larger header */
+  .skinHeader {
+    min-height: 64px !important;
+  }
+
+  .emby-tab-button {
+    font-size: 1.1rem !important;
+    padding: 1em 2em !important;
+  }
+
+  .headerButton {
+    font-size: 1.5rem !important;
+  }
+
+  /* Larger navigation items */
+  .navMenuOption {
+    font-size: 1.2rem !important;
+    padding: 0.8em 1.2em !important;
+  }
+
+  .sidebarHeader {
+    font-size: 0.9rem !important;
+  }
+
+  /* Larger scroll buttons */
+  .emby-scrollbuttons-button {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.4rem !important;
+  }
+
+  /* Larger indicators */
+  .indicator,
+  .countIndicator,
+  .playedIndicator {
+    font-size: 0.9rem !important;
+    padding: 0.3em 0.6em !important;
+  }
+
+  .itemProgressBar {
+    height: 5px !important;
+  }
+
+  /* Card overlay buttons bigger */
+  .cardOverlayButton {
+    font-size: 1.8rem !important;
+    width: 56px !important;
+    height: 56px !important;
+  }
+
+  /* Detail page */
+  h1.itemName {
+    font-size: 3rem !important;
+  }
+
+  .overview-text,
+  .itemOverview {
+    font-size: 1.3rem !important;
+    line-height: 1.7 !important;
+  }
+
+  .detailButton {
+    padding: 0.8em 1.5em !important;
+    font-size: 1.1rem !important;
+  }
+}
+
+/* Ultra-wide 4K (3840px+) */
+@media screen and (min-width: 3840px) {
+  body {
+    font-size: 1.6rem !important;
+  }
+
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 2.5rem !important;
+  }
+
+  .cardText {
+    font-size: 1.3rem !important;
+  }
+
+  .emby-tab-button {
+    font-size: 1.3rem !important;
+    padding: 1.2em 2.5em !important;
+  }
+
+  .navMenuOption {
+    font-size: 1.4rem !important;
+    padding: 1em 1.5em !important;
+  }
+
+  h1.itemName {
+    font-size: 4rem !important;
+  }
+
+  .overview-text,
+  .itemOverview {
+    font-size: 1.6rem !important;
+  }
+
+  .emby-scrollbuttons-button {
+    width: 64px !important;
+    height: 64px !important;
+    font-size: 1.8rem !important;
+  }
+
+  .itemProgressBar {
+    height: 6px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §30  RESPONSIVE — DESKTOP (1024px – 2559px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media screen and (min-width: 1024px) and (max-width: 2559px) {
+  body {
+    font-size: 1rem !important;
+  }
+
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 1.3rem !important;
+  }
+
+  .cardText {
+    font-size: 0.9rem !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §31  RESPONSIVE — TABLET (768px – 1023px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media screen and (max-width: 1023px) and (min-width: 768px) {
+  body {
+    font-size: 0.95rem !important;
+  }
+
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 1.15rem !important;
+    letter-spacing: 0.06em !important;
+  }
+
+  .emby-tab-button {
+    font-size: 0.8rem !important;
+    padding: 0.6em 1em !important;
+  }
+
+  .navMenuOption {
+    font-size: 0.9rem !important;
+    padding: 0.5em 0.8em !important;
+  }
+
+  .cardText {
+    font-size: 0.85rem !important;
+  }
+
+  .itemProgressBar {
+    height: 3px !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §32  RESPONSIVE — MOBILE (< 768px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media screen and (max-width: 767px) {
+  :root {
+    --aurum-radius-lg:  8px;
+    --aurum-radius-xl:  10px;
+  }
+
+  body {
+    font-size: 0.9rem !important;
+  }
+
+  /* Compact header */
+  .skinHeader {
+    min-height: 48px !important;
+  }
+
+  .pageTitle,
+  .pageTitleWithLogo {
+    font-size: 0.9rem !important;
+  }
+
+  /* Compact tabs */
+  .emby-tab-button {
+    font-size: 0.75rem !important;
+    padding: 0.5em 0.8em !important;
+    letter-spacing: 0.08em !important;
+  }
+
+  /* Section titles */
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 1rem !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  /* Card text */
+  .cardText {
+    font-size: 0.8rem !important;
+    padding: 0.2em 0.4em !important;
+  }
+
+  /* Navigation drawer full width on mobile */
+  .mainDrawer {
+    width: 280px !important;
+  }
+
+  .navMenuOption {
+    font-size: 0.9rem !important;
+    padding: 0.7em 1em !important;
+    /* Larger touch targets */
+    min-height: 44px !important;
+  }
+
+  .sidebarHeader {
+    font-size: 0.65rem !important;
+  }
+
+  /* Smaller card radius on mobile */
+  .cardBox {
+    border-radius: var(--aurum-radius-md) !important;
+  }
+
+  .cardScalable {
+    border-radius: var(--aurum-radius-md) var(--aurum-radius-md) 0 0 !important;
+  }
+
+  /* Progress bar */
+  .itemProgressBar {
+    height: 2px !important;
+  }
+
+  /* Detail page mobile */
+  h1.itemName {
+    font-size: 1.4rem !important;
+  }
+
+  .overview-text,
+  .itemOverview {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .detailButton {
+    padding: 0.5em 0.8em !important;
+    font-size: 0.85rem !important;
+    min-height: 44px !important;
+  }
+
+  /* Touch-friendly buttons */
+  .paper-icon-button-light {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .emby-scrollbuttons-button {
+    width: 36px !important;
+    height: 36px !important;
+  }
+
+  /* Card overlay bigger touch target */
+  .cardOverlayButton {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.4rem !important;
+  }
+
+  /* Now playing bar compact */
+  .nowPlayingBar {
+    font-size: 0.85rem !important;
+  }
+
+  /* List items touch friendly */
+  .listItem {
+    min-height: 48px !important;
+    padding: 0.5em !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §33  RESPONSIVE — SMALL MOBILE (< 400px)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media screen and (max-width: 399px) {
+  .emby-tab-button {
+    font-size: 0.7rem !important;
+    padding: 0.4em 0.6em !important;
+  }
+
+  .sectionTitle,
+  .sectionTitle-cards {
+    font-size: 0.9rem !important;
+  }
+
+  .mainDrawer {
+    width: 260px !important;
+  }
+
+  h1.itemName {
+    font-size: 1.2rem !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §34  TV LAYOUT SPECIFIC
+   ═══════════════════════════════════════════════════════════════ */
+
+.layout-tv body,
+html.layout-tv {
+  font-size: 1.3rem !important;
+}
+
+.layout-tv .sectionTitle,
+.layout-tv .sectionTitle-cards {
+  font-size: 1.8rem !important;
+}
+
+.layout-tv .emby-tab-button {
+  font-size: 1.1rem !important;
+  padding: 1em 2em !important;
+}
+
+.layout-tv .cardText {
+  font-size: 1.1rem !important;
+}
+
+.layout-tv .navMenuOption {
+  font-size: 1.2rem !important;
+  padding: 0.8em 1.2em !important;
+  min-height: 56px !important;
+}
+
+.layout-tv .paper-icon-button-light {
+  min-width: 56px !important;
+  min-height: 56px !important;
+}
+
+.layout-tv .cardOverlayButton {
+  width: 56px !important;
+  height: 56px !important;
+  font-size: 1.8rem !important;
+}
+
+.layout-tv .itemProgressBar {
+  height: 5px !important;
+}
+
+.layout-tv .detailButton {
+  padding: 0.8em 1.5em !important;
+  font-size: 1.1rem !important;
+  min-height: 56px !important;
+}
+
+/* Focus states for TV (remote navigation) */
+.layout-tv .card:focus .cardBox,
+.layout-tv .card.focused .cardBox {
+  border-color: var(--aurum-gold) !important;
+  box-shadow: 0 0 0 3px var(--aurum-gold),
+              0 0 24px rgba(201, 168, 76, 0.4) !important;
+}
+
+.layout-tv .emby-tab-button:focus {
+  color: var(--aurum-gold-accent) !important;
+  background: rgba(201, 168, 76, 0.15) !important;
+  outline: 2px solid var(--aurum-gold) !important;
+}
+
+.layout-tv .navMenuOption:focus {
+  background: rgba(201, 168, 76, 0.15) !important;
+  border-left-color: var(--aurum-gold) !important;
+  color: var(--aurum-gold) !important;
+  outline: none !important;
+}
+
+.layout-tv .listItem:focus {
+  background: rgba(201, 168, 76, 0.1) !important;
+  outline: 2px solid var(--aurum-gold) !important;
+}
+
+.layout-tv .detailButton:focus {
+  border-color: var(--aurum-gold-accent) !important;
+  box-shadow: 0 0 0 3px var(--aurum-gold),
+              0 0 16px rgba(201, 168, 76, 0.3) !important;
+  outline: none !important;
+}
+
+.layout-tv .paper-icon-button-light:focus {
+  color: var(--aurum-gold-accent) !important;
+  outline: 2px solid var(--aurum-gold) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §35  ACCESSIBILITY & FOCUS
+   ═══════════════════════════════════════════════════════════════ */
+
+*:focus-visible {
+  outline: 2px solid var(--aurum-gold) !important;
+  outline-offset: 2px !important;
+}
+
+/* Skip to content link */
+.skipToContent {
+  background: var(--aurum-gold) !important;
+  color: var(--aurum-bg-void) !important;
+  font-family: 'Jost', sans-serif !important;
+  font-weight: 600 !important;
+}
+
+/* High contrast mode support */
+@media (forced-colors: active) {
+  .cardBox {
+    border: 2px solid ButtonText !important;
+  }
+  .emby-tab-button-active {
+    border-bottom: 3px solid Highlight !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   §36  PRINT (hide non-essential)
+   ═══════════════════════════════════════════════════════════════ */
+
+@media print {
+  .skinHeader,
+  .mainDrawer,
+  .nowPlayingBar,
+  .emby-scrollbuttons {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   END OF JELLYFIN AURUM THEME
+   ═══════════════════════════════════════════════════════════════ */
